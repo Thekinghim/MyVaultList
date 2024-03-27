@@ -1,0 +1,19 @@
+## Interface: 100200
+## Title: My Vault List
+## Notes: Tracks and lists great vault rewards for all characters and alts!
+## Version: 0.1
+## Author: Släggish
+## SavedVariables: MyVaultListDB
+## IconTexture: Interface\AddOns\MyVaultList\PauseIcon
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\AceAddon-3.0\AceAddon-3.0.lua
+Libs\AceConsole-3.0\AceConsole-3.0.lua
+Libs\AceDB-3.0\AceDB-3.0.lua
+Libs\AceEvent-3.0\AceEvent-3.0.lua
+Libs\AceLocale-3.0\AceLocale-3.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+locale\locale.xml
+MyVaultList.lua
