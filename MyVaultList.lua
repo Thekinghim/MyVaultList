@@ -5,6 +5,11 @@ local L = LibStub("AceLocale-3.0"):GetLocale("MyVaultList")
 local addonName, MyVaultList = ...
 MyVaultList = MyVaultList or {}
 
+local function GetPlayerFullName()
+	local name, realm = UnitFullName("player")
+	return name .. "-" .. realm
+ end
+
 local LDB = LibStub("LibDataBroker-1.1")
 local LDBIcon = LibStub("LibDBIcon-1.0")
 
@@ -13,7 +18,7 @@ function MyVaultList:Initialize()
     local minimapLDB = LDB:NewDataObject(addonName, {
         type = "data source",
         text = addonName,
-        icon = "Interface\\AddOns\\MyVaultList\\PauseIcon",
+        icon = "Interface\\AddOns\\MyVaultList\\MyVaultList",
 		OnClick = function(clickedFrame, button)
 			if button == "LeftButton" then
 				if MyVaultListInfoFrame:IsShown() then
@@ -23,6 +28,7 @@ function MyVaultList:Initialize()
 				end
 			end
         end,
+		
         OnTooltipShow = function(tooltip)
             tooltip:AddLine(addonName ) 
             tooltip:AddLine("Click to toggle or type |cff00ffff/Vaut|r.", 1, 1, 1)
@@ -49,7 +55,7 @@ end)
 
 
 
-local PlayerName = UnitName("player")
+local PlayerName = GetPlayerFullName()
 
 local sortConfig  = { 
 	["class"] = "class",
@@ -69,8 +75,8 @@ viewTypes = {
 
 --frame options
 local CONST_WINDOW_WIDTH = 0
-local CONST_SCROLL_LINE_HEIGHT = 25
-local CONST_SCROLL_LINE_AMOUNT = 12
+local CONST_SCROLL_LINE_HEIGHT = 22	
+local CONST_SCROLL_LINE_AMOUNT = 10
 local CONST_WINDOW_HEIGHT = CONST_SCROLL_LINE_AMOUNT * CONST_SCROLL_LINE_HEIGHT + 70
 
 local backdrop_color = {.1, .2, .1, 0.1}
@@ -119,7 +125,7 @@ local default_global_data = {
 
 local headerTable = {
 	{key = "class", text = "", width = 40, canSort = true, dataType = "string", order = "DESC", offset = 0},
-	{key = "character", text = L["Character"], width = 95, canSort = true, dataType = "string", order = "DESC", offset = 0},
+	{key = "character", text = L["Character"], width = 130, canSort = true, dataType = "string", order = "DESC", offset = -15},
 	{key = "iLevel", text = L["iLevel"], width = 60, canSort = true, dataType = "number", order = "DESC", offset = 0},
 }
 
@@ -129,7 +135,7 @@ local headerTableConfig  = { "class", "character", "iLevel" }
 local headerOptions = {
 	["raid"] = { text = L["Raids"], width = 70, canSort = false, dataType = "string", order = "DESC", offset = 15, align = "center"},
 	["activities"] = { text = L["Keys"], width = 70, canSort = false, dataType = "string", order = "DESC", offset = 15, align = "center"},
-	["pvp"] = { text = L["PvP"], width = 70, canSort = false, dataType = "string", order = "DESC", offset = 15, align = "center"}
+	["pvp"] = { text = L["PvP"], width = 80, canSort = false, dataType = "string", order = "DESC", offset = 15, align = "center"}
 }
 
 
@@ -244,7 +250,7 @@ function MyVaultListAddon:createWindow()
 	local statusBar = DetailsFramework:CreateStatusBar(f)
 	statusBar.text = statusBar:CreateFontString(nil, "overlay", "GameFontNormalLarge")
 	statusBar.text:SetPoint("left", statusBar, "left", 5, 0)
-	statusBar.text:SetText("|cffff0000Version1.2|r |cff00ffffby Släggish|r")
+	statusBar.text:SetText("|cffff0000Version1.3|r |cff00ffffby Släggish|r")
 	DetailsFramework:SetFontSize(statusBar.text, 12) 
 	--DetailsFramework:SetFontColor(statusBar.text, "blueviolet")
 
@@ -480,7 +486,7 @@ function MyVaultListAddon:SaveCharacterInfo(info)
 	end
 
 	local characterInfo = info or self:GetCharacterInfo()
-	local characterName = UnitName("player")
+	local characterName = GetPlayerFullName()
 
 	local found = false
     for _, value in ipairs(self.db.global.characters) do
@@ -496,7 +502,7 @@ function MyVaultListAddon:SaveCharacterInfo(info)
 end
 
 function MyVaultListAddon:GetCharacterInfo()
-	local name = UnitName("player")
+	local name = GetPlayerFullName()
 	local characterInfo = {}
 	for _, value in ipairs(self.db.global.characters) do
         if value.name == name  then
